@@ -1,2 +1,3 @@
 /categories/categories.json
-api_credentials.json
+auth_credentials.json
+__pycache__
