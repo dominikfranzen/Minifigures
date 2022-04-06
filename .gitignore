@@ -1,2 +1,3 @@
-/categories/categories.json
-api_credentials.json
+/clustering/categories.json
+auth_credentials.json
+__pycache__
