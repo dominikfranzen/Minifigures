@@ -6,8 +6,7 @@ def parse_content_line(line):
     content = line.strip().split('\t')
     if len(content) < 2:
         return None
-    else:
-        return content
+    return content
 
 def list_categories(file):
     with open(file) as minifigures:

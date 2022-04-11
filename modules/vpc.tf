@@ -29,7 +29,7 @@ resource "aws_security_group" "unbrickable-db-sg" {
 resource "aws_subnet" "unbrickable-private-subnet" {
   vpc_id = aws_vpc.unbrickable-vpc.id
   cidr_block = "10.10.1.0/24"
-  availability_zone = "eu-central-1a"
+  availability_zone = "eu-central-1b"
 
   tags = {
       Name = "unbrickable-private-subnet"
@@ -39,7 +39,7 @@ resource "aws_subnet" "unbrickable-private-subnet" {
 resource "aws_subnet" "unbrickable-public-subnet" {
   vpc_id = aws_vpc.unbrickable-vpc.id
   cidr_block = "10.10.2.0/24"
-  availability_zone = "eu-central-1b"
+  availability_zone = "eu-central-1a"
 
   tags = {
       Name = "unbrickable-public-subnet"
@@ -60,13 +60,14 @@ resource "aws_db_instance" "unbrickable-db" {
   allocated_storage = 20
   engine = "mariadb"
   engine_version = "10.5.13"
-  availability_zone = aws_subnet.unbrickable-private-subnet.availability_zone
+  availability_zone = aws_subnet.unbrickable-public-subnet.availability_zone
   db_subnet_group_name = aws_db_subnet_group.unbrickable-subnets.name
   vpc_security_group_ids = [aws_security_group.unbrickable-db-sg.id]
   publicly_accessible = true
   name = var.db_name
   username = var.db_user
   password = var.db_password
+  skip_final_snapshot = true
 }
 
 resource "aws_internet_gateway" "unbrickable-gw" {
@@ -80,4 +81,9 @@ resource "aws_route_table" "unbrickable_route_table" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.unbrickable-gw.id
   }
+}
+
+resource "aws_route_table_association" "public_subnet" {
+  subnet_id = aws_subnet.unbrickable-public-subnet.id
+  route_table_id =aws_route_table.unbrickable_route_table.id  
 }
