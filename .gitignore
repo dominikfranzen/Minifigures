@@ -1,3 +1,9 @@
 /clustering/categories.json
 auth_credentials.json
 __pycache__
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+db_secrets.json
+modules/variables.tf
+.terraform.lock.hcl
