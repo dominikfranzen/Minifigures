@@ -7,3 +7,4 @@ terraform.tfstate.backup
 db_secrets.json
 modules/variables.tf
 .terraform.lock.hcl
+testing.py
