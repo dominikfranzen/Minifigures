@@ -42,14 +42,15 @@ part_prices = Table(
 meta.create_all(engine)
 
 def insert_to_table(list_of_dicts, tablename):
-    if len(list_of_dicts) > 0:
-        with engine.connect() as connection:
-            if tablename == 'minifigure_parts':
-                connection.execute(minifigure_parts.insert(), list_of_dicts)
-            elif tablename == 'minifigure_prices':
-                connection.execute(minifigure_prices.insert(), list_of_dicts)
-            elif tablename == 'part_prices':
-                connection.execute(part_prices.insert(), list_of_dicts)
+    if len(list_of_dicts) == 0:
+        return
+    with engine.connect() as connection:
+        if tablename == 'minifigure_parts':
+            connection.execute(minifigure_parts.insert(), list_of_dicts)
+        elif tablename == 'minifigure_prices':
+            connection.execute(minifigure_prices.insert(), list_of_dicts)
+        elif tablename == 'part_prices':
+            connection.execute(part_prices.insert(), list_of_dicts)
 
 def select_parts_to_check():
     with engine.connect() as connection:
