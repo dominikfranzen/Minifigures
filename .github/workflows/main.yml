@@ -1,0 +1,19 @@
+name: Build Webserver code
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: zip code
+        run: |
+          sh zip-webserver.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: web-app
+          path: web-app.zip
+      
