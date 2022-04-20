@@ -2,10 +2,9 @@ import auth
 import json
 import database_handling as udb
 from datetime import datetime
-import db_secrets
+
 
 def save_to_db(category_number, identifier):
-    db_secrets.get_db_secrets()
     if identifier == 'minifigure_parts' or identifier == 'minifigure_prices':   
         with open('clustering/categories.json') as categories:
             minifigure_ids = json.load(categories)[category_number]['minifigure_ids']
@@ -44,7 +43,7 @@ def generate_parts_list(minifigure_id):
 
 def generate_minifigure_pricelist(minifigure_id):
     client = auth.auth_on_bricklink()
-    url = 'https://api.bricklink.com/api/store/v1/items/minifig/'+minifigure_id+'/price?new_or_used=U'
+    url = 'https://api.bricklink.com/api/store/v1/items/minifig/'+minifigure_id+'/price?new_or_used=U&region=europe'
     response = client.get(url)
     price_list = response.json()['data']['price_detail']
     capture_date = datetime.now().strftime('%Y-%m-%d')
@@ -60,8 +59,9 @@ def generate_minifigure_pricelist(minifigure_id):
                 'quantity': entry['quantity']
             }
             minifigure_prices_list.append(minifigure_price_item)
+            print(minifigure_price_item)
             
     return minifigure_prices_list
 
-#save_to_db(0, 'minifigure_parts')
-#save_to_db(0, 'minifigure_prices')
+#save_to_db(3, 'minifigure_parts')
+save_to_db(3, 'minifigure_prices')
