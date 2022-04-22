@@ -9,3 +9,4 @@ modules/variables.tf
 .terraform.lock.hcl
 testing.py
 save_to_db_execute.py
+venv

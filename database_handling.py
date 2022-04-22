@@ -41,16 +41,28 @@ part_prices = Table(
 )
 meta.create_all(engine)
 
-def insert_to_table(list_of_dicts, tablename):
-    if len(list_of_dicts) == 0:
+def get_minifigures_of_category(category_number):
+    with open('clustering/categories.json') as categories:
+        minifigure_ids = json.load(categories)[category_number]['minifigure_ids']
+    return minifigure_ids
+
+def save_minifigure_parts(parts_list):
+    if len(parts_list) == 0:
         return
     with engine.connect() as connection:
-        if tablename == 'minifigure_parts':
-            connection.execute(minifigure_parts.insert(), list_of_dicts)
-        elif tablename == 'minifigure_prices':
-            connection.execute(minifigure_prices.insert(), list_of_dicts)
-        elif tablename == 'part_prices':
-            connection.execute(part_prices.insert(), list_of_dicts)
+        connection.execute(minifigure_parts.insert(), parts_list)
+
+def save_minifigure_prices(minifigure_pricelist):
+    if len(minifigure_pricelist) == 0:
+        return
+    with engine.connect() as connection:
+            connection.execute(minifigure_prices.insert(), minifigure_pricelist)
+
+def save_part_prices(part_pricelist):
+    if len(part_pricelist) == 0:
+        return
+    with engine.connect() as connection:
+            connection.execute(part_prices.insert(), part_pricelist)
 
 def select_parts_to_check():
     with engine.connect() as connection:
@@ -60,8 +72,6 @@ def select_parts_to_check():
             part_id = row[2]
             part_color_id = row[3]
             key = part_id+'-'+part_color_id
-            if key in parts_list:
-                continue
-            else:
+            if key not in parts_list:
                 parts_list.append(key)
         return parts_list

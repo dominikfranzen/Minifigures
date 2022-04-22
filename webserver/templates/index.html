@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} What Minifigure to build and sell.. {% endblock %}</h1>
+    {% for item in minifigures %}
+        <h2>{{ item['minifigure_id'] }}</h2>
+    <span class="badge badge-primary">{{ item['profit'] }}</span>
+    <table>
+        <tr>
+            <td>Minimum Parts Price: {{ item['min_price_multiple_parts'] }}</td>
+        </tr>
+        <tr>
+            <td>Minimum Minifigure Price: {{ item['min_minifigure_price'] }}</td>
+        </tr>
+    </table>
+    <hr>
+{% endfor %}
+{% endblock %}
