@@ -14,3 +14,4 @@ unbrickable-ssh.pem.pub
 webserver-ssh-key.pem
 web-app.zip
 lambda-package-minifigures.zip
+.DS_Store
