@@ -16,14 +16,10 @@ profit_center = db.Table('profit_center', metadata, autoload=True, autoload_with
 
 app = Flask(__name__)
 
-#for row in query:
-#    print(row)
-
-
 @app.route('/')
 def index():
     with engine.connect() as connection:
         query = connection.execute(profit_center.select()).fetchall()
 
     return render_template('index.html', minifigures=query)
-
+app.run(host="0.0.0.0", port=80)

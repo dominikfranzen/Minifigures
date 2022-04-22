@@ -51,6 +51,6 @@ def fetch_and_save_part_prices(parts_list):
     for part in parts_list:
         part_id = part.split("-")[0]
         part_color_id = part.split("-")[1]
-        db.insert_to_table(generate_parts_pricelist(part_id, part_color_id), 'part_prices')
+        db.save_part_prices(generate_parts_pricelist(part_id, part_color_id))
 
 fetch_and_save_part_prices(parts_list)
