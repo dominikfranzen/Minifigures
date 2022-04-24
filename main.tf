@@ -16,5 +16,4 @@ provider "aws" {
 
 module "unbrickable" {
     source = "./modules"
-    
 }

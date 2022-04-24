@@ -60,4 +60,4 @@ where missing_parts = 0 \
 order by profit desc \
 limit 50;')
 
-result = connection.execute(text)
+result = connection.execute(query)
