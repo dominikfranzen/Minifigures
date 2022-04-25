@@ -4,7 +4,7 @@ from datetime import datetime
 
 def generate_minifigure_pricelist(minifigure_id):
     client = auth.auth_on_bricklink()
-    url = 'https://api.bricklink.com/api/store/v1/items/minifig/'+minifigure_id+'/price?new_or_used=U&region=europe'
+    url = 'https://api.bricklink.com/api/store/v1/items/minifig/'+minifigure_id+'/price?new_or_used=U'
     response = client.get(url)
     price_list = response.json()['data']['price_detail']
     capture_date = datetime.now().strftime('%Y-%m-%d')
