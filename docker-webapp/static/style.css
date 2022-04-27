@@ -1,8 +1,8 @@
 body {
     margin: 0;
     color: azure;
-    font-family: 'Roboto', sans-serif;
-
+    font-family: 'Bebas Neue', cursive;
+    font-size: x-large;
 }
 
 .app-container {
@@ -32,15 +32,14 @@ body {
   }
 
 .footer {
-    display: flex;
     width: 100%;
-    height: 30px;
+    height: 70px;
     background: rgb(55, 55, 55);
 }
 
 a {
     color: rgb(255, 255, 255);
-    font-size: large;
+    font-size: xx-large;
     text-decoration: none;
 }
 

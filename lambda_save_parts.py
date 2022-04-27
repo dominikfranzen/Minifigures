@@ -1,4 +1,6 @@
-from save_parts import fetch_and_save_minifigure_parts 
+import save_parts
 
 def lambda_handler(event, context):   
-    fetch_and_save_minifigure_parts(0)
+    save_parts.fetch_and_save_minifigure_parts(0)
+    save_parts.fetch_and_save_minifigure_parts(66)
+    save_parts.fetch_and_save_minifigure_parts(73)
