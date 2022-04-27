@@ -1,34 +1,25 @@
-variable "daily_minifigures_trigger" {
-  default     = "cron(45 18 * * ? *)"
-  description = "the aws cloudwatch event rule schedule expression that specifies when the scheduler runs. Default is 5 minuts past the hour. for debugging use 'rate(5 minutes)'. See https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html"
-}
-
-variable "daily_minifigure_parts_trigger" {
-  default     = "cron(0 19 * * ? *)"
-  description = "the aws cloudwatch event rule schedule expression that specifies when the scheduler runs. Default is 5 minuts past the hour. for debugging use 'rate(5 minutes)'. See https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html"
-}
-
-variable "daily_part_prices_trigger" {
-  default     = "cron(15 19 * * ? *)"
-  description = "the aws cloudwatch event rule schedule expression that specifies when the scheduler runs. Default is 5 minuts past the hour. for debugging use 'rate(5 minutes)'. See https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html"
-}
-
 resource "aws_cloudwatch_event_rule" "daily_exec_minifigure_prices" {
-    name = "daily"
+    name = "daily_exec_minifigure_prices"
     description = "Fires daily"
-    schedule_expression = var.daily_minifigures_trigger
+    schedule_expression = "cron(30 11 * * ? *)"
 }
 
 resource "aws_cloudwatch_event_rule" "daily_exec_minifigure_parts" {
-    name = "daily"
+    name = "daily_exec_minifigure_parts"
     description = "Fires daily"
-    schedule_expression = var.daily_minifigure_parts_trigger
+    schedule_expression = "cron(45 11 * * ? *)"
 }
 
 resource "aws_cloudwatch_event_rule" "daily_exec_part_prices" {
-    name = "daily"
+    name = "daily_exec_part_prices"
     description = "Fires daily"
-    schedule_expression = var.daily_part_prices_trigger
+    schedule_expression = "cron(0 12 * * ? *)"
+}
+
+resource "aws_cloudwatch_event_rule" "daily_exec_profit_calc" {
+    name = "daily_exec_profit_calc"
+    description = "Fires daily"
+    schedule_expression = "cron(15 12 * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "save_minifigure_prices_daily" {
@@ -47,6 +38,12 @@ resource "aws_cloudwatch_event_target" "save_part_prices_daily" {
     rule = "${aws_cloudwatch_event_rule.daily_exec_part_prices.name}"
     target_id = "save_minifigure_prices"
     arn = "${aws_lambda_function.save_part_prices.arn}"
+}
+
+resource "aws_cloudwatch_event_target" "profit_calc_daily" {
+    rule = "${aws_cloudwatch_event_rule.daily_exec_profit_calc.name}"
+    target_id = "save_minifigure_prices"
+    arn = "${aws_lambda_function.profit_calc.arn}"
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_to_call_save_minifigure_prices" {
@@ -71,4 +68,12 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_save_part_pricess" {
     function_name = "${aws_lambda_function.save_part_prices.function_name}"
     principal = "events.amazonaws.com"
     source_arn = "${aws_cloudwatch_event_rule.daily_exec_part_prices.arn}"
+}
+
+resource "aws_lambda_permission" "allow_cloudwatch_to_call_profit_calc" {
+    statement_id = "AllowExecutionFromCloudWatch"
+    action = "lambda:InvokeFunction"
+    function_name = "${aws_lambda_function.profit_calc.function_name}"
+    principal = "events.amazonaws.com"
+    source_arn = "${aws_cloudwatch_event_rule.daily_exec_profit_calc.arn}"
 }

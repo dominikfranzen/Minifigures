@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <title>{% block title %} {% endblock %}</title>
@@ -22,13 +22,13 @@
       </header>
       <nav class="nav">
         <a class="link" href="{{ url_for('index')}}">Minifigure Profits</a>
-        <a class="link" href="about.html">About Unbrickable</a>
+        <a class="link" href="{{ url_for('about')}}">About Unbrickable</a>
       </nav>
     <main class="content">
       {% block content %} {% endblock %}
     </main>
     <footer class="footer">
-      blablubb
+      <p>© unbrickable 2022</p>
     </footer>
   </div>
 

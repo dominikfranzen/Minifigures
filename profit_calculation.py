@@ -17,9 +17,10 @@ part_prices = db.Table('part_prices', metadata, autoload=True, autoload_with=eng
 minifigure_prices = db.Table('minifigure_prices', metadata, autoload=True, autoload_with=engine)
 minifigure_parts = db.Table('minifigure_parts', metadata, autoload=True, autoload_with=engine)
 
-with open("rev-calculation.sql", "r") as sql_file:
-    data = sql_file.read().replace("\n", " ").split(";")
-    for item in data:
-        if item.strip():
-            query = text(item)
-            result = connection.execute(query)
+def calculate_profits():
+    with open("profit-calculation.sql", "r") as sql_file:
+        data = sql_file.read().replace("\n", " ").split(";")
+        for item in data:
+            if item.strip():
+                query = text(item)
+                result = connection.execute(query)

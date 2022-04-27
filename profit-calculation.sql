@@ -4,13 +4,13 @@ drop view if exists min_price_overview;
 drop view if exists profit_center;
 
 create view latest_min_part_prices as
-select part_id, part_color_id, max(capture_date), unit_price as min_part_price, no_parts_in_market
+select part_id, part_color_id, max(capture_week), unit_price as min_part_price, no_parts_in_market
             from part_prices group by part_id, part_color_id;
 
 create view latest_min_minifigure_prices as
-select minifigure_id, max(capture_date) as latest_request, min_minifigure_price
-    from (select minifigure_id, capture_date, min(unit_price) as min_minifigure_price
-            from minifigure_prices group by minifigure_id, capture_date) as min_prices_by_capture_date
+select minifigure_id, max(capture_week) as latest_request, min_minifigure_price
+    from (select minifigure_id, capture_week, min(unit_price) as min_minifigure_price
+            from minifigure_prices group by minifigure_id, capture_week) as min_prices_by_capture_date
 group by minifigure_id;
 
 create view min_price_overview as

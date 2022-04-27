@@ -1,20 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} What Minifigure to build and sell.. {% endblock %}</h1>
-    {% for item in minifigures %}
-        <h2>{{ item['minifigure_id'] }}</h2>
-    <table>
-        <tr>
-            <td>Minimum Parts Price: {{ item['min_price_multiple_parts'] }}</td>
-        </tr>
-        <tr>
-            <td>Minimum Minifigure Price: {{ item['min_minifigure_price'] }}</td>
-        </tr>
-        <tr>
-            <td>Profit by assembling: {{ item['profit'] }}</td>
-        </tr>
-    </table>
-    <hr>
-{% endfor %}
+    <h1>{% block title %} About Unbrickable {% endblock %}</h1>
+    <p>Unbrickable kalkuliert potenzielle Gewinne, die durch den Kauf von Einzelteilen einer Minifigur und den Verkauf der Figur entstehen können. Die Daten werden mittles API-Abfrage in eine SQL-Datenbank geschrieben, verarbeitet und die Ergebnisse in einer Flask-Webapp zur Verfügung gestellt.</p>
+    <img src="{{ url_for('static', filename='infrastructure.png') }}">
 {% endblock %}
