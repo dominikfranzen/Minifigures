@@ -2,15 +2,18 @@ from sqlalchemy import Table, Column, Integer, String, MetaData, Float, Date
 import sqlalchemy as db
 import json
 
-with open('db_secrets.json', 'r') as json_data:
-    db_secrets = json.load(json_data)
-    db_user = db_secrets["db_user"]
-    db_password = db_secrets["db_password"]
-    db_url = db_secrets["db_url"]
-    db_ports = db_secrets["db_ports"]
-    db_name = db_secrets["db_name"]
+def get_db_url_from_credentials():
+    with open('db_secrets.json', 'r') as json_data:
+        db_secrets = json.load(json_data)
+        db_user = db_secrets["db_user"]
+        db_password = db_secrets["db_password"]
+        db_url = db_secrets["db_url"]
+        db_ports = db_secrets["db_ports"]
+        db_name = db_secrets["db_name"]
+    db_url = 'mysql+pymysql://'+db_user+':'+db_password+'@'+db_url+':'+db_ports+'/'+db_name
+    return db_url
 
-engine = db.create_engine('mysql+pymysql://'+db_user+':'+db_password+'@'+db_url+':'+db_ports+'/'+db_name)
+engine = db.create_engine(get_db_url_from_credentials())
 meta = MetaData()
 
 minifigure_parts = Table(
@@ -65,6 +68,8 @@ def save_part_prices(part_pricelist):
             connection.execute(part_prices.insert(), part_pricelist)
 
 def select_parts_to_check():
+    engine = db.create_engine(get_db_url_from_credentials())
+    meta = MetaData()
     with engine.connect() as connection:
         query = connection.execute(minifigure_parts.select())
         parts_list = []

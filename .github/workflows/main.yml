@@ -1,7 +1,7 @@
 name: Build Webserver code
 on:
   push:
-    branches: [ main ]
+    branches: [ 20220420-flask-webapp ]
   workflow_dispatch:
   
 jobs:
